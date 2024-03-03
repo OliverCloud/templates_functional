@@ -1,0 +1,7 @@
+export const subscribers = [
+    {
+        "name": "Anders Christensen",
+        "email": "anders@mediacollege.dk",
+        "message": "Jeg er en subscriber"
+    }
+];
