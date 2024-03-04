@@ -64,7 +64,7 @@ export async function DELETE(request) {
 export async function PUT(request) {
 
         const body = await request.json();
-        console.log('put', body)
+        
         let result = await putSubscriber(body);
         
         if(result)

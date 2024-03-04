@@ -1,5 +1,8 @@
 
 import dbConnect from "./db/dbConnect.mjs";
+import orderModel from "./db/models/order.model.mjs";
+import productModel from "./db/models/product.model.mjs";
+import reviewModel from "./db/models/review.model.mjs";
 import subscriberModel from "./db/models/subscriber.model.mjs";
 import userModel from "./db/models/user.model.mjs";
 
@@ -188,6 +191,164 @@ export const putSubscriber = async (subscriber) => {
         });
 
         return result;
+
+    } catch (error) {
+
+        console.log(error)
+
+    }
+
+};
+
+/* 
+
+
+    GET REVIEWS
+
+
+*/
+
+export const getReviews = async () => {
+    
+    console.log('getReviews service')
+
+    try {
+
+        await dbConnect();
+        let result = await reviewModel.find({});
+        console.log('getReviews result', result)
+        return result
+
+    } catch (error) {
+
+        console.log(error)
+
+    }
+
+};
+
+/* 
+
+
+    GET PRODUCTS
+
+
+*/
+
+export const getProducts = async () => {
+    
+    try {
+
+        await dbConnect();
+        let result = await productModel.find({});
+
+        return result
+
+    } catch (error) {
+
+        console.log(error)
+
+    }
+
+};
+
+export const getProductsByRange = async (range) => {
+    
+    try {
+
+        await dbConnect();
+
+        range = range.split(',');
+
+
+        let result = await productModel.find({ '_id': { $in: range } });
+
+        return result
+
+    } catch (error) {
+
+        console.log(error)
+
+    }
+
+};
+
+/* 
+
+    ORDERS
+
+*/
+
+export const getOrders = async () => {
+    
+    try {
+
+        await dbConnect();
+        let result = await orderModel.find({});
+
+        return result
+
+    } catch (error) {
+
+        console.log(error)
+
+    }
+
+};
+
+export const getOrderById = async (id) => {
+    
+    try {
+
+        await dbConnect();
+        let result = await orderModel.find({_id: id});
+
+        return result
+
+    } catch (error) {
+
+        console.log(error)
+
+    }
+
+};
+
+export const postOrder = async (order) => {
+    
+    console.log('post order')
+
+    try {
+
+        await dbConnect();
+
+        let result = {};
+        result = await orderModel.create(order);
+
+        return result;
+     
+
+    } catch (error) {
+
+        console.log(error)
+
+    }
+
+};
+
+
+export const deleteOrderById = async (id) => {
+    
+    console.log('deleteOrderById')
+
+    try {
+
+        await dbConnect();
+
+        let result = {};
+        result = await orderModel.findByIdAndDelete({_id: id});
+
+        return result;
+     
 
     } catch (error) {
 

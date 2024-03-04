@@ -1,8 +1,8 @@
 import { exit } from 'process';
 import dbConnect from '../dbConnect.mjs';
-import { dbExists, seedDefaultSubscriber, seedDefaultUser } from './seedhelpers.mjs';
+import { dbExists, seedDefaultProduct, seedDefaultReview, seedDefaultSubscriber, seedDefaultUser, seedDefaultOrder } from './seedhelpers.mjs';
 import bcrypt from 'bcryptjs';
-import { subscribers } from './seedfile.mjs';
+import { reviews, products, subscribers, orders } from './seedfile.mjs';
 
 // Load Seedfile
 // const loadJSON = (path) => JSON.parse(fs.readFileSync(new URL(path, import.meta.url)));
@@ -29,10 +29,27 @@ if(exists === undefined)
         "email" : "admin@mediacollege.dk",
         "hashedPassword" : await bcrypt.hash("admin", 10)
     })
+    
+    const subscriber = await seedDefaultSubscriber(subscribers[0]);
 
-    const subscriber = await seedDefaultSubscriber(subscribers[0])
+    for (let i = 0; i < reviews.length; i++) {
+        const reviewsList = await seedDefaultReview(reviews[i]);
+    }
+
+    let productsList = [];
+
+    for (let i = 0; i < products.length; i++) {
+        productsList = await seedDefaultProduct(products[i]);
+    }
+
+    let order = orders(productsList._id)
+    let newOrder = await seedDefaultOrder(order);
+
+    console.log('productsList order', order)
+   
 
 } else {
+
 
 
     console.log('----------------------')
